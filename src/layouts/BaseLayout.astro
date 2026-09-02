@@ -24,12 +24,16 @@ const props = Astro.props;
                 {
                     [
                         { title: 'pavol.a.komlos', href: '/' },
-                        { title: '/galeria', href: '/galeria' },
-                        { title: '/prednasky', href: '/prednasky' },
+                        { title: '/galeria', href: '/galeria', hide: true },
+                        { title: '/prednasky', href: '/prednasky', hide: true },
                     ].map((v) => (
                         <a
                             href={v.href}
                             class="text-ink hover:text-accent p-3 transition"
+                            class:list={[
+                                v.hide && 'hidden',
+                                v.hide && 'md:block',
+                            ]}
                         >
                             {v.title}
                         </a>
