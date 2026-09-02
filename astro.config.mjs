@@ -10,7 +10,6 @@ import { SITE_URL } from './src/consts';
 // https://astro.build/config
 export default defineConfig({
     site: SITE_URL,
-    base: '/personal-web',
     integrations: [mdx(), sitemap()],
     vite: {
         plugins: [tailwindcss()],
