@@ -1,0 +1,50 @@
+---
+interface Props {
+    text: string;
+    class?: string;
+}
+
+const { text, class: className = '' } = Astro.props;
+
+// Split text into array of characters (preserving spaces)
+const chars = text.split('');
+
+// Array of tech/lab symbols for the middle rotation state
+const symbols = ['#', '@', '%', '*', '⚗', '/>', '≈', '§', '±'];
+---
+
+<span class={`group/rotary inline-flex cursor-pointer ${className}`}>
+    {
+        chars.map((char, index) => {
+            // Keep spaces empty so they don't render a symbol
+            if (char === ' ') {
+                return <span class="inline-block w-2">&nbsp;</span>;
+            }
+
+            // Pick a random symbol for the middle block
+            const randomSymbol =
+                symbols[Math.floor(Math.random() * symbols.length)];
+            // Stagger each letter by 30 milliseconds
+            const staggerDelay = `${index * 0.03}s`;
+
+            return (
+                <span class="inline-flex h-[1em] overflow-hidden align-bottom leading-none">
+                    <span
+                        class="flex flex-col transition-[transform_1.6s_cubic-bezier(0.76,0,0.24,1)] delay-[var(--stagger,0s)] group-hover/rotary:translate-y-[-2em]"
+                        style={`--stagger: ${staggerDelay};`}
+                    >
+                        <span class="flex h-[1em] items-center justify-center">
+                            {char}
+                        </span>
+                        <span class="flex h-[1em] items-center justify-center">
+                            {randomSymbol}
+                        </span>
+                        <span class="flex h-[1em] items-center justify-center">
+                            {char}
+                        </span>
+                    </span>
+                </span>
+            );
+        })
+    }
+</span>

@@ -1,0 +1,35 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+
+const videos = [
+    { id: '__xzWi3q_lY', title: 'Ako navrhnúť experiment' },
+    { id: '-VXXSRrE5Jw', title: 'Regulácia génovej expresie' },
+    { id: 'jWNJnEdKWuE', title: 'Teloméry a prečo sa skracujú' },
+];
+---
+
+<BaseLayout>
+    <main class="mx-auto w-full max-w-screen-2xl grow space-y-6 px-2">
+        <section class="flex flex-col items-center gap-6">
+            {
+                videos.map((v) => (
+                    <a
+                        href={`https://youtu.be/${v.id}`}
+                        class="border-border dither-bg group relative border bg-white p-2"
+                    >
+                        <div class="aspect-video overflow-hidden transition group-hover:opacity-50 group-hover:blur-xs">
+                            <img
+                                class="aspect-video object-cover transition group-hover:scale-110"
+                                src={`https://img.youtube.com/vi/${v.id}/hqdefault.jpg`}
+                            />
+                        </div>
+
+                        <div class="group-hover:bg-canvas group-hover:text-ink group-hover:border-border absolute bottom-4 left-4 border border-transparent p-2 text-xs text-zinc-500">
+                            {v.title}
+                        </div>
+                    </a>
+                ))
+            }
+        </section>
+    </main>
+</BaseLayout>

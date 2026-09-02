@@ -1,0 +1,167 @@
+---
+import type { HTMLAttributes } from 'astro/types';
+
+interface Props extends HTMLAttributes<'div'> {}
+
+const props = Astro.props;
+---
+
+<style>
+    /* CSS Variables & Custom Clips/Animations */
+    :root {
+        --thickness: 24px;
+        --speed: 1.5s;
+    }
+
+    /* Directional SVG Background Sources */
+    .bg-dna-h {
+        background-image: url('/dna-border/horizontal.svg');
+        background-size: 40px 100%;
+    }
+    .bg-dna-v {
+        background-image: url('/dna-border/vertical.svg');
+        background-size: 100% 40px;
+    }
+
+    /* 45° Corner Miters */
+    .clip-miter-top {
+        clip-path: polygon(
+            0 0,
+            100% 0,
+            calc(100% - var(--thickness)) 100%,
+            var(--thickness) 100%
+        );
+    }
+    .clip-miter-right {
+        clip-path: polygon(
+            100% 0,
+            100% 100%,
+            0 calc(100% - var(--thickness)),
+            0 var(--thickness)
+        );
+    }
+    .clip-miter-bottom {
+        clip-path: polygon(
+            var(--thickness) 0,
+            calc(100% - var(--thickness)) 0,
+            100% 100%,
+            0 100%
+        );
+    }
+    .clip-miter-left {
+        clip-path: polygon(
+            0 0,
+            100% var(--thickness),
+            100% calc(100% - var(--thickness)),
+            0 100%
+        );
+    }
+
+    /* Linear Perimeter Animations */
+    .animate-dna-right {
+        animation: moveRight var(--speed) linear infinite;
+    }
+    .animate-dna-down {
+        animation: moveDown var(--speed) linear infinite;
+    }
+    .animate-dna-left {
+        animation: moveLeft var(--speed) linear infinite;
+    }
+    .animate-dna-up {
+        animation: moveUp var(--speed) linear infinite;
+    }
+
+    @keyframes moveRight {
+        0% {
+            background-position: 0 0;
+        }
+        100% {
+            background-position: 40px 0;
+        }
+    }
+    @keyframes moveDown {
+        0% {
+            background-position: 0 0;
+        }
+        100% {
+            background-position: 0 40px;
+        }
+    }
+    @keyframes moveLeft {
+        0% {
+            background-position: 0 0;
+        }
+        100% {
+            background-position: -40px 0;
+        }
+    }
+    @keyframes moveUp {
+        0% {
+            background-position: 0 0;
+        }
+        100% {
+            background-position: 0 -40px;
+        }
+    }
+
+    .animate-protein {
+        animation: proteinPulse calc(var(--speed) * 1 / 4) ease-in-out infinite
+            alternate;
+    }
+
+    @keyframes proteinPulse {
+        0% {
+            scale: 1;
+        }
+        100% {
+            scale: 1.1;
+        }
+    }
+</style>
+
+<!-- Flexible Resizable Container -->
+<div class={'relative p-[var(--thickness)]' + ' ' + props.class} {...props}>
+    <!-- Top Border -->
+    <div
+        class="bg-dna-h clip-miter-top animate-dna-right pointer-events-none absolute inset-x-0 top-0 z-10 h-[var(--thickness)] bg-repeat-x"
+    >
+    </div>
+
+    <!-- Right Border -->
+    <div
+        class="bg-dna-v clip-miter-right animate-dna-down pointer-events-none absolute inset-y-0 right-0 z-10 w-[var(--thickness)] bg-repeat-y"
+    >
+    </div>
+
+    <!-- Bottom Border -->
+    <div
+        class="bg-dna-h clip-miter-bottom animate-dna-left pointer-events-none absolute inset-x-0 bottom-0 z-10 h-[var(--thickness)] bg-repeat-x"
+    >
+    </div>
+
+    <!-- Left Border -->
+    <div
+        class="bg-dna-v clip-miter-left animate-dna-up pointer-events-none absolute inset-y-0 left-0 z-10 w-[var(--thickness)] bg-repeat-y"
+    >
+    </div>
+
+    <div
+        class="animate-protein absolute top-0 left-0 z-100 size-[calc(var(--thickness)*2)] translate-[calc(-50%+var(--thickness)/2)] bg-[url('/dna-border/protein.svg')] bg-cover"
+    >
+    </div>
+    <div
+        class="animate-protein absolute top-full left-0 z-100 size-[calc(var(--thickness)*2)] translate-x-[calc(-50%+var(--thickness)/2)] translate-y-[calc(-50%-var(--thickness)/2)] rotate-90 bg-[url('/dna-border/protein.svg')] bg-cover"
+    >
+    </div>
+    <div
+        class="animate-protein absolute top-0 left-full z-100 size-[calc(var(--thickness)*2)] translate-x-[calc(-50%-var(--thickness)/2)] translate-y-[calc(-50%+var(--thickness)/2)] -rotate-90 bg-[url('/dna-border/protein.svg')] bg-cover"
+    >
+    </div>
+    <div
+        class="animate-protein absolute top-full left-full z-100 size-[calc(var(--thickness)*2)] translate-[calc(-50%-var(--thickness)/2)] rotate-180 bg-[url('/dna-border/protein.svg')] bg-cover"
+    >
+    </div>
+
+    <!-- Inner Content Area -->
+    <slot />
+</div>

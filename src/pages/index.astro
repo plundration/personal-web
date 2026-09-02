@@ -1,0 +1,393 @@
+---
+import BaseLayout from '@/layouts/BaseLayout.astro';
+import DNABorder from '@/components/DNABorder.astro';
+import RotaryText from '../components/RotaryText.astro';
+
+import { Image } from 'astro:assets';
+
+const imageModules = import.meta.glob<{ default: ImageMetadata }>(
+    '/src/assets/gallery/*.{jpeg,jpg,png,gif,webp}',
+);
+const loadedImages = await Promise.all(
+    Object.values(imageModules).map(async (resolve) => {
+        const mod = await resolve();
+        return mod.default;
+    }),
+);
+
+const marqueeList = [...loadedImages, ...loadedImages];
+import { getCollection } from 'astro:content';
+
+// Fetch all project entries and sort by date descending
+const projects = await getCollection('projects');
+projects.sort((a, b) => b.data.date.localeCompare(a.data.date));
+
+// - doucovanie banner
+// - dokoncit biota
+---
+
+<BaseLayout>
+    <main
+        class="mx-auto grid h-full w-full max-w-screen-2xl grow grid-cols-1 gap-4 px-3 md:grid-cols-12"
+    >
+        <section
+            class="bg-canvas border-border relative flex flex-col gap-8 overflow-hidden border p-6 md:col-span-5"
+        >
+            <div
+                class="flex justify-between font-mono text-xs tracking-widest text-zinc-500 uppercase"
+            >
+                <span>// tldr;</span>
+                <span class="text-accent flex items-center gap-2 font-bold">
+                    <span
+                        class="bg-accent size-2 animate-pulse rounded-full shadow-[0_0_8px_var(--theme-accent)]"
+                    ></span> ONLINE
+                </span>
+            </div>
+
+            <div class="space-y-4">
+                <h1
+                    class="flex items-center text-4xl font-bold tracking-tighter"
+                >
+                    <span>pavol.a.</span>
+                    <span class="group relative">
+                        <span class="group-hover:underline">komlos</span>
+
+                        <!-- Hovering Box -->
+                        <div
+                            class="border-border bg-canvas pointer-events-none absolute left-0 mt-2 w-md translate-y-1 border p-4 font-sans text-base font-normal tracking-normal opacity-0 shadow-lg transition-all duration-300 ease-out group-hover:pointer-events-auto group-hover:translate-y-0 group-hover:opacity-100"
+                        >
+                            <div class="flex items-start justify-between">
+                                <div>
+                                    <span class="text-2xl font-bold"
+                                        >komlós</span
+                                    >
+                                    <span class="text-accent ml-2"
+                                        >prídavné meno</span
+                                    >
+                                </div>
+                                <div class="text-sm text-gray-500">
+                                    maďarčina (HU)
+                                </div>
+                            </div>
+                            <span class="text-accent font-mono opacity-75">
+                                [ˈkomloːʃ]
+                            </span>
+                            <div class="mt-2">
+                                <h2>Definícia</h2>
+                                <div class="flex gap-2">
+                                    <span>1.</span>
+                                    <span>
+                                        chmeľový, plný chmeľu; (od slova <i
+                                            >komló</i
+                                        > – chmeľ)
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </span>
+                    <span
+                        class="animate-blink bg-ink ml-1 inline-block h-8 w-3 align-middle"
+                    ></span>
+                </h1>
+
+                <ul class="space-y-1 font-mono text-sm text-zinc-500">
+                    <li>[0] <span class="text-ink">programátor</span></li>
+                    <li>[1] <span class="text-ink">študent medik</span></li>
+                    <li>[2] <span class="text-ink">laboratorná myš</span></li>
+                    <li>[3] <span class="text-ink">fotograf</span></li>
+                </ul>
+            </div>
+
+            <div class="space-y-6 text-sm">
+                <div>
+                    <h2 class="mb-2 font-mono text-xs text-zinc-500">/praca</h2>
+                    <p
+                        class="border-border ml-1 border-l-2 pl-4 leading-relaxed"
+                    >
+                        Už <b>3 roky</b> pracujem v <a
+                            class="citation-link"
+                            href="https://sodehal.com">Sodehal s.r.o.</a
+                        > ako softvérový inžinier v tíme (a samostatne) na rozličných
+                        projektoch pre štátne entity a súkromné firmy. <br />
+                        Predtým som pracoval ako freelance web-dev a indie game developer.
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="mb-2 font-mono text-xs text-zinc-500">/uni</h2>
+                    <p
+                        class="border-border ml-1 border-l-2 pl-4 leading-relaxed"
+                    >
+                        Študujem <i>Všeobecné lékařství</i> na 3.LF a <i
+                            >Molekulární biologii</i
+                        > na PŘF Univerzity Karlovy v Prahe.
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="mb-2 font-mono text-xs text-zinc-500">/bio</h2>
+                    <p
+                        class="border-border ml-1 border-l-2 pl-4 leading-relaxed"
+                    >
+                        Ako <b>člen autorského kolektívu</b> Biologickej olympiády
+                        na Slovensku tvorím teoretické úlohy, podieľam sa na organizácií
+                        celoštátneho kola a aj pripravujem <a
+                            class="citation-link"
+                            href="/prednasky">letné prednášky</a
+                        >.
+
+                        <br />
+
+                        Ponovom som aj členom <a
+                            class="citation-link"
+                            href="https://www.edub.sk">o.z. eduB</a
+                        >, v ktorom s tímom zakladáme nové letné sústredenie <a
+                            class="citation-link"
+                            href="https://vortex.edub.sk">Vortex</a
+                        >.
+                    </p>
+                </div>
+
+                <div>
+                    <h2 class="mb-2 font-mono text-xs text-zinc-500">
+                        /sutaze
+                    </h2>
+                    <div
+                        class="border-border ml-1 border-l-2 pl-4 leading-relaxed"
+                    >
+                        Počas SŠ a ZŠ som súťažil a bol úspešný v súťažiach
+                        (sólo aj tímových):
+                        <ul class="list-inside list-disc">
+                            <li>biológia - 3. celoštátne v olympiáde</li>
+                            <li>
+                                chémia - Chemikláni 2024: 1. miesto z
+                                Česko-Slovenska
+                            </li>
+                            <li>
+                                fyzika - Fyzikláni: 2. miesto kat. C
+                                medzinárodné kolo v Prahe
+                            </li>
+                            <li>
+                                matematika - 3. celoštátne v súťaži Matematický
+                                náboj
+                            </li>
+                            <li>debatiáda - 2. celoštátne v 2018/19</li>
+                        </ul>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <div class="flex h-full flex-col gap-4 md:col-span-7">
+            <section
+                class="bg-canvas border-border flex-1 space-y-4 border p-6"
+            >
+                <div
+                    class="border-border flex items-center justify-between border-b pb-3 font-mono text-xs text-zinc-500 uppercase"
+                >
+                    <div class="flex items-center gap-2">
+                        <span>./projekty</span>
+                    </div>
+                    <div class="flex items-center gap-3">
+                        <span
+                            >TOTAL_UNITS: <span class="text-accent"
+                                >[{projects.length}]</span
+                            ></span
+                        >
+                    </div>
+                </div>
+
+                <div
+                    class="custom-scrollbar max-h-[460px] space-y-3 overflow-y-auto pr-3"
+                >
+                    {
+                        projects.map((project) => (
+                            <a
+                                href={`/projekty/${project.data.slug}`}
+                                class="group border-border bg-canvas hover:border-accent block border p-4 transition-all duration-300 hover:translate-x-1"
+                            >
+                                <div class="mb-2 flex flex-col justify-between gap-2 md:flex-row md:items-center">
+                                    <div class="flex items-center gap-3">
+                                        <span class="text-accent font-mono text-xs font-bold">
+                                            {project.data.title}
+                                        </span>
+                                        <span class="border-border border px-1 font-mono text-xs text-zinc-500">
+                                            {project.data.date}
+                                        </span>
+                                    </div>
+
+                                    <span class="group-hover:text-accent font-mono text-xs text-zinc-500 transition-colors">
+                                        PATH: /projekty/{project.data.slug}{' '}
+                                        &rarr;
+                                    </span>
+                                </div>
+
+                                <div class="flex flex-wrap gap-1.5 font-mono text-xs">
+                                    {project.data.tags.map((tag) => (
+                                        <span class="bg-panel border-border border px-1.5 py-0.5 text-zinc-400 group-hover:border-zinc-700">
+                                            #{tag}
+                                        </span>
+                                    ))}
+                                </div>
+                            </a>
+                        ))
+                    }
+                </div>
+            </section>
+
+            <div class="grid flex-1 grid-cols-1 gap-4 md:grid-cols-2">
+                <a
+                    href="/galeria"
+                    class="group border-border bg-panel hover:border-accent relative flex min-h-[220px] cursor-pointer flex-col justify-between overflow-hidden border transition-all duration-500"
+                >
+                    <div
+                        class="film-sprockets border-border h-6 w-full border-b opacity-60"
+                    >
+                    </div>
+
+                    <div
+                        class="border-border bg-canvas relative z-20 flex items-center justify-between border-b px-4 py-2 font-mono text-[10px]"
+                    >
+                        <span
+                            class="bg-ink text-canvas px-2 py-0.5 font-mono text-xs font-bold"
+                        >
+                            ./galeria
+                        </span>
+                        <span
+                            class="bg-canvas border-border text-accent border px-1 font-mono text-[10px]"
+                        >
+                            [LIVE_FEED]
+                        </span>
+                    </div>
+
+                    <div class="relative my-auto w-full overflow-hidden py-2">
+                        <div
+                            class="scanlines pointer-events-none absolute inset-0 z-10 opacity-40"
+                        >
+                        </div>
+
+                        <div class="animate-marquee gap-3 px-2">
+                            {
+                                marqueeList.map((img, idx) => (
+                                    <div class="border-border bg-canvas group/frame relative h-36 w-48 shrink-0 overflow-hidden border">
+                                        {typeof img === 'string' ? (
+                                            <img
+                                                src={img}
+                                                alt="Gallery thumbnail"
+                                                class="h-full w-full object-cover transition group-hover:scale-110"
+                                            />
+                                        ) : (
+                                            <Image
+                                                src={img}
+                                                alt="Gallery frame"
+                                                width={200}
+                                                class="h-full w-full object-cover transition group-hover:scale-110"
+                                            />
+                                        )}
+
+                                        <span class="bg-canvas/80 text-ink absolute right-1 bottom-1 px-0.5 font-mono text-[9px]">
+                                            #0{idx % (marqueeList.length / 2)}
+                                        </span>
+                                    </div>
+                                ))
+                            }
+                        </div>
+                    </div>
+
+                    <div
+                        class="border-border bg-canvas relative z-20 flex items-center justify-between border-t px-4 py-2 font-mono text-[10px]"
+                    >
+                        <span
+                            class="group-hover:text-ink text-zinc-500 transition-colors"
+                        >
+                            35MM
+                        </span>
+                        <span class="text-accent group-hover:underline"
+                            >[VIEW_ALL]</span
+                        >
+                    </div>
+
+                    <div
+                        class="film-sprockets border-border h-6 w-full border-t opacity-60"
+                    >
+                    </div>
+                </a>
+
+                <section
+                    class="border-border text-accent flex min-h-[160px] flex-col border bg-black p-4 font-mono text-sm"
+                >
+                    <div class="mb-4 text-xs text-zinc-500">
+                        --- KONTAKTY ---
+                    </div>
+                    <div
+                        class="border-accent glow-text grow space-y-1 border-2 p-4"
+                    >
+                        <div>&gt; cat contacts.md</div>
+                        <div>
+                            <div><br /></div>
+                            <div># KONTAKTY</div>
+                            <div><br /></div>
+                            <div>
+                                <svg
+                                    id="Layer_1"
+                                    class="mr-2 inline-block size-[1.10em] fill-current"
+                                    data-name="Layer 1"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    viewBox="0 0 122.88 88.86"
+                                    ><title>Email</title><path
+                                        d="M7.05,0H115.83a7.07,7.07,0,0,1,7,7.05V81.81a7,7,0,0,1-1.22,4,2.78,2.78,0,0,1-.66,1,2.62,2.62,0,0,1-.66.46,7,7,0,0,1-4.51,1.65H7.05a7.07,7.07,0,0,1-7-7V7.05A7.07,7.07,0,0,1,7.05,0Zm-.3,78.84L43.53,40.62,6.75,9.54v69.3ZM49.07,45.39,9.77,83.45h103L75.22,45.39l-11,9.21h0a2.7,2.7,0,0,1-3.45,0L49.07,45.39Zm31.6-4.84,35.46,38.6V9.2L80.67,40.55ZM10.21,5.41,62.39,47.7,112.27,5.41Z"
+                                    ></path></svg
+                                >
+                                EMAIL:
+                                <a
+                                    href="mailto:pavol.a.komlos@gmail.com"
+                                    class="hover:bg-accent inline-block p-1 transition-colors hover:text-black"
+                                >
+                                    pavol.a.komlos@gmail.com
+                                </a>
+                            </div>
+                            <div>
+                                <svg
+                                    class="mr-2 inline-block size-[1.10em] fill-current"
+                                    viewBox="0 0 1024 1024"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                >
+                                    <title>GITHUB</title>
+                                    <path
+                                        fill-rule="evenodd"
+                                        clip-rule="evenodd"
+                                        d="M8 0C3.58 0 0 3.58 0 8C0 11.54 2.29 14.53 5.47 15.59C5.87 15.66 6.02 15.42 6.02 15.21C6.02 15.02 6.01 14.39 6.01 13.72C4 14.09 3.48 13.23 3.32 12.78C3.23 12.55 2.84 11.84 2.5 11.65C2.22 11.5 1.82 11.13 2.49 11.12C3.12 11.11 3.57 11.7 3.72 11.94C4.44 13.15 5.59 12.81 6.05 12.6C6.12 12.08 6.33 11.73 6.56 11.53C4.78 11.33 2.92 10.64 2.92 7.58C2.92 6.71 3.23 5.99 3.74 5.43C3.66 5.23 3.38 4.41 3.82 3.31C3.82 3.31 4.49 3.1 6.02 4.13C6.66 3.95 7.34 3.86 8.02 3.86C8.7 3.86 9.38 3.95 10.02 4.13C11.55 3.09 12.22 3.31 12.22 3.31C12.66 4.41 12.38 5.23 12.3 5.43C12.81 5.99 13.12 6.7 13.12 7.58C13.12 10.65 11.25 11.33 9.47 11.53C9.76 11.78 10.01 12.26 10.01 13.01C10.01 14.08 10 14.94 10 15.21C10 15.42 10.15 15.67 10.55 15.59C13.71 14.53 16 11.53 16 8C16 3.58 12.42 0 8 0Z"
+                                        transform="scale(64)"></path>
+                                </svg>
+                                GITHUB:
+                                <a
+                                    href="https://github.com/plundration"
+                                    class="hover:bg-accent inline-block p-1 transition-colors hover:text-black"
+                                >
+                                    @plundration
+                                </a>
+                            </div>
+                            <div>
+                                <svg
+                                    class="mr-2 inline-block size-[1.10em] fill-current"
+                                    viewBox="0 0 24 24"
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    ><title>Instagram</title><path
+                                        d="M7.0301.084c-1.2768.0602-2.1487.264-2.911.5634-.7888.3075-1.4575.72-2.1228 1.3877-.6652.6677-1.075 1.3368-1.3802 2.127-.2954.7638-.4956 1.6365-.552 2.914-.0564 1.2775-.0689 1.6882-.0626 4.947.0062 3.2586.0206 3.6671.0825 4.9473.061 1.2765.264 2.1482.5635 2.9107.308.7889.72 1.4573 1.388 2.1228.6679.6655 1.3365 1.0743 2.1285 1.38.7632.295 1.6361.4961 2.9134.552 1.2773.056 1.6884.069 4.9462.0627 3.2578-.0062 3.668-.0207 4.9478-.0814 1.28-.0607 2.147-.2652 2.9098-.5633.7889-.3086 1.4578-.72 2.1228-1.3881.665-.6682 1.0745-1.3378 1.3795-2.1284.2957-.7632.4966-1.636.552-2.9124.056-1.2809.0692-1.6898.063-4.948-.0063-3.2583-.021-3.6668-.0817-4.9465-.0607-1.2797-.264-2.1487-.5633-2.9117-.3084-.7889-.72-1.4568-1.3876-2.1228C21.2982 1.33 20.628.9208 19.8378.6165 19.074.321 18.2017.1197 16.9244.0645 15.6471.0093 15.236-.005 11.977.0014 8.718.0076 8.31.0215 7.0301.0839m.1402 21.6932c-1.17-.0509-1.8053-.2453-2.2287-.408-.5606-.216-.96-.4771-1.3819-.895-.422-.4178-.6811-.8186-.9-1.378-.1644-.4234-.3624-1.058-.4171-2.228-.0595-1.2645-.072-1.6442-.079-4.848-.007-3.2037.0053-3.583.0607-4.848.05-1.169.2456-1.805.408-2.2282.216-.5613.4762-.96.895-1.3816.4188-.4217.8184-.6814 1.3783-.9003.423-.1651 1.0575-.3614 2.227-.4171 1.2655-.06 1.6447-.072 4.848-.079 3.2033-.007 3.5835.005 4.8495.0608 1.169.0508 1.8053.2445 2.228.408.5608.216.96.4754 1.3816.895.4217.4194.6816.8176.9005 1.3787.1653.4217.3617 1.056.4169 2.2263.0602 1.2655.0739 1.645.0796 4.848.0058 3.203-.0055 3.5834-.061 4.848-.051 1.17-.245 1.8055-.408 2.2294-.216.5604-.4763.96-.8954 1.3814-.419.4215-.8181.6811-1.3783.9-.4224.1649-1.0577.3617-2.2262.4174-1.2656.0595-1.6448.072-4.8493.079-3.2045.007-3.5825-.006-4.848-.0608M16.953 5.5864A1.44 1.44 0 1 0 18.39 4.144a1.44 1.44 0 0 0-1.437 1.4424M5.8385 12.012c.0067 3.4032 2.7706 6.1557 6.173 6.1493 3.4026-.0065 6.157-2.7701 6.1506-6.1733-.0065-3.4032-2.771-6.1565-6.174-6.1498-3.403.0067-6.156 2.771-6.1496 6.1738M8 12.0077a4 4 0 1 1 4.008 3.9921A3.9996 3.9996 0 0 1 8 12.0077"
+                                    ></path></svg
+                                >
+                                INSTAGRAM:
+                                <a
+                                    href="https://instagram.com/pali_komlos"
+                                    class="hover:bg-accent inline-block p-1 transition-colors hover:text-black"
+                                >
+                                    @pali_komlos
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                </section>
+            </div>
+        </div>
+    </main>
+</BaseLayout>
