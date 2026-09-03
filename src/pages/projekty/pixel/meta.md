@@ -15,4 +15,4 @@ Vlastný renderovací systém zameraný na tvorbu 3D pixel art grafiky.
 ### Technický popis
 
 - Tvorený pomocou **Unity3D Engine**.
-- Nateraz nedokončený — pokračovanie v vývoji je plánované počas gap year.
+- Nateraz nedokončený - pokračovanie v vývoji je plánované počas gap year.
